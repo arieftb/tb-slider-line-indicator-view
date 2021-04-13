@@ -33,9 +33,12 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
     }
 
     private fun addIndicators(count: Int) {
-        this.count = count
-        for (i in 0 until count) {
-            addIndicator()
+        if (count > 0) {
+            this.count = count
+            for (i in 0 until count) {
+                addIndicator()
+            }
+            setSelectedIndicator(0)
         }
     }
 
@@ -99,6 +102,5 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         })
 
         addIndicators(viewPager.adapter?.itemCount!!)
-        setSelectedIndicator(0)
     }
 }
