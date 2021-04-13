@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         binding.slider.adapter = adapter
         binding.indicator.setViewPager2(binding.slider)
 
+        setAutoSlide()
+    }
+
+    private fun setAutoSlide() {
         Timer().schedule(object : TimerTask() {
             override fun run() {
                 Handler(Looper.getMainLooper()).post {
