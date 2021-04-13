@@ -2,7 +2,6 @@ package id.my.arieftb.lib
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import androidx.core.view.forEachIndexed
-import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 
@@ -34,14 +32,13 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         }
     }
 
-    private fun setIndicator() {
-        addIndicators(5)
-    }
-
     private fun addIndicators(count: Int) {
-        this.count = count
-        for (i in 0 until count) {
-            addIndicator()
+        if (count > 0) {
+            this.count = count
+            for (i in 0 until count) {
+                addIndicator()
+            }
+            setSelectedIndicator(0)
         }
     }
 
@@ -73,17 +70,16 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         val indicatorView = indicator.findViewById<ImageView>(R.id.imageLineIndicator)
         indicatorView.setBackgroundResource(R.drawable.background_line_indicator_unselected)
 
-        val param = indicatorView.layoutParams as LinearLayout.LayoutParams
-        param.width = getMatchParentSize() / count
+        val param = indicatorView.layoutParams
+        param.width = MATCH_PARENT
         param.height = 2
-        param.marginStart = 2
-        param.marginEnd = 2
+
+        indicator.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 1f).apply {
+            marginEnd = 2
+            marginStart = 2
+        }
 
         return indicator
-    }
-
-    private fun getMatchParentSize(): Int {
-        return context.resources.displayMetrics.widthPixels
     }
 
     fun setViewPager2(viewPager: ViewPager2?) {
@@ -106,6 +102,5 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         })
 
         addIndicators(viewPager.adapter?.itemCount!!)
-        setSelectedIndicator(0)
     }
 }
