@@ -1,0 +1,3 @@
+include ':TBSliderLineIndicator'
+include ':app'
+rootProject.name = "TBSliderLineIndicatorSample"
