@@ -24,15 +24,15 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
     private val indicatorList = ArrayList<ImageView>()
     private var count: Int = 0
 
-    var indicatorItemMargin: Int = 0
+    var indicatorItemMargin: Float = 0f
         set(value) {
-            field = value
+            field = dpToPx(value).toFloat()
             refreshIndicatorMargin()
         }
 
-    var indicatorItemHeight: Int = 1
+    var indicatorItemHeight: Float = 1f
         set(value) {
-            field = dpToPx(value.toFloat())
+            field = dpToPx(value).toFloat()
             refreshIndicatorHeight()
         }
 
@@ -41,8 +41,8 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         addView(linearLayoutParent, MATCH_PARENT, WRAP_CONTENT)
 
         if (isInEditMode) {
-            indicatorItemMargin = 5
-            indicatorItemHeight = 10
+            indicatorItemMargin = 5f
+            indicatorItemHeight = 10f
             addIndicators(5)
         }
 
@@ -52,13 +52,13 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
                     R.styleable.TBSliderLineIndicatorView_indicator_itemMargin,
                     0f
                 )
-            )
+            ).toFloat()
             indicatorItemHeight = dpToPx(
                 it.getDimension(
                     R.styleable.TBSliderLineIndicatorView_indicator_itemHeight,
                     1f
                 )
-            )
+            ).toFloat()
         }.apply {
             recycle()
         }
@@ -97,8 +97,8 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         linearLayoutParent.forEach { view ->
             val viewParam = view.layoutParams as LinearLayout.LayoutParams
             viewParam.apply {
-                marginStart = indicatorItemMargin
-                marginEnd = indicatorItemMargin
+                marginStart = indicatorItemMargin.toInt()
+                marginEnd = indicatorItemMargin.toInt()
             }.also {
                 view.layoutParams = it
                 view.requestLayout()
@@ -110,7 +110,7 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         linearLayoutParent.forEach { view ->
             val viewParam = view.layoutParams as LinearLayout.LayoutParams
             viewParam.apply {
-                height = indicatorItemHeight
+                height = indicatorItemHeight.toInt()
             }.also {
                 view.layoutParams = it
                 view.requestLayout()
@@ -131,9 +131,9 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         param.height = MATCH_PARENT
 
         indicator.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 1f).apply {
-            marginEnd = indicatorItemMargin
-            marginStart = indicatorItemMargin
-            height = indicatorItemHeight
+            marginEnd = indicatorItemMargin.toInt()
+            marginStart = indicatorItemMargin.toInt()
+            height = indicatorItemHeight.toInt()
         }
 
         return indicator
