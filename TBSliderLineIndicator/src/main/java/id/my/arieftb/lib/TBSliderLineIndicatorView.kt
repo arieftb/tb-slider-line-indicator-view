@@ -23,10 +23,17 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
     private val linearLayoutParent = LinearLayout(context)
     private val indicatorList = ArrayList<ImageView>()
     private var count: Int = 0
+
     var indicatorItemMargin: Int = 0
         set(value) {
             field = value
             refreshIndicatorMargin()
+        }
+
+    var indicatorItemHeight: Int = 1
+        set(value) {
+            field = dpToPx(value.toFloat())
+            refreshIndicatorHeight()
         }
 
     init {
@@ -34,6 +41,8 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         addView(linearLayoutParent, MATCH_PARENT, WRAP_CONTENT)
 
         if (isInEditMode) {
+            indicatorItemMargin = 5
+            indicatorItemHeight = 10
             addIndicators(5)
         }
 
@@ -42,6 +51,12 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
                 it.getDimension(
                     R.styleable.TBSliderLineIndicatorView_indicator_itemMargin,
                     0f
+                )
+            )
+            indicatorItemHeight = dpToPx(
+                it.getDimension(
+                    R.styleable.TBSliderLineIndicatorView_indicator_itemHeight,
+                    1f
                 )
             )
         }.apply {
@@ -91,6 +106,17 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         }
     }
 
+    private fun refreshIndicatorHeight() {
+        linearLayoutParent.forEach { view ->
+            val viewParam = view.layoutParams as LinearLayout.LayoutParams
+            viewParam.apply {
+                height = indicatorItemHeight
+            }.also {
+                view.layoutParams = it
+                view.requestLayout()
+            }
+        }
+    }
 
     private fun buildIndicator(): ViewGroup {
         val indicator = LayoutInflater.from(context)
@@ -102,11 +128,12 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
 
         val param = indicatorView.layoutParams
         param.width = MATCH_PARENT
-        param.height = 2
+        param.height = MATCH_PARENT
 
         indicator.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 1f).apply {
             marginEnd = indicatorItemMargin
             marginStart = indicatorItemMargin
+            height = indicatorItemHeight
         }
 
         return indicator

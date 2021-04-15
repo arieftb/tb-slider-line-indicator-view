@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="TBSliderLineIndicatorView">
         <attr name="indicator_itemMargin" format="dimension"/>
+        <attr name="indicator_itemHeight" format="dimension"/>
     </declare-styleable>
 </resources>
