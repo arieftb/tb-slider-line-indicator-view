@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding.slider.adapter = adapter
         binding.indicator.setViewPager2(binding.slider)
 
-        setAutoSlide()
+//        setAutoSlide()
     }
 
     private fun setAutoSlide() {

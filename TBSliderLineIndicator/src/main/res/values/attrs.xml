@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TBSliderLineIndicatorView">
+        <attr name="indicator_itemMargin" format="dimension"/>
+        <attr name="indicator_itemHeight" format="dimension"/>
+    </declare-styleable>
+</resources>

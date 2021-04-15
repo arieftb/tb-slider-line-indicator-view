@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
+import androidx.core.view.forEach
 import androidx.core.view.forEachIndexed
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -23,12 +24,43 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
     private val indicatorList = ArrayList<ImageView>()
     private var count: Int = 0
 
+    var indicatorItemMargin: Float = 0f
+        set(value) {
+            field = dpToPx(value).toFloat()
+            refreshIndicatorMargin()
+        }
+
+    var indicatorItemHeight: Float = 1f
+        set(value) {
+            field = dpToPx(value).toFloat()
+            refreshIndicatorHeight()
+        }
+
     init {
         linearLayoutParent.orientation = HORIZONTAL
         addView(linearLayoutParent, MATCH_PARENT, WRAP_CONTENT)
 
         if (isInEditMode) {
+            indicatorItemMargin = 5f
+            indicatorItemHeight = 10f
             addIndicators(5)
+        }
+
+        context.obtainStyledAttributes(attrs, R.styleable.TBSliderLineIndicatorView, 0, 0).also {
+            indicatorItemMargin = dpToPx(
+                it.getDimension(
+                    R.styleable.TBSliderLineIndicatorView_indicator_itemMargin,
+                    0f
+                )
+            ).toFloat()
+            indicatorItemHeight = dpToPx(
+                it.getDimension(
+                    R.styleable.TBSliderLineIndicatorView_indicator_itemHeight,
+                    1f
+                )
+            ).toFloat()
+        }.apply {
+            recycle()
         }
     }
 
@@ -61,6 +93,30 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         }
     }
 
+    private fun refreshIndicatorMargin() {
+        linearLayoutParent.forEach { view ->
+            val viewParam = view.layoutParams as LinearLayout.LayoutParams
+            viewParam.apply {
+                marginStart = indicatorItemMargin.toInt()
+                marginEnd = indicatorItemMargin.toInt()
+            }.also {
+                view.layoutParams = it
+                view.requestLayout()
+            }
+        }
+    }
+
+    private fun refreshIndicatorHeight() {
+        linearLayoutParent.forEach { view ->
+            val viewParam = view.layoutParams as LinearLayout.LayoutParams
+            viewParam.apply {
+                height = indicatorItemHeight.toInt()
+            }.also {
+                view.layoutParams = it
+                view.requestLayout()
+            }
+        }
+    }
 
     private fun buildIndicator(): ViewGroup {
         val indicator = LayoutInflater.from(context)
@@ -72,14 +128,19 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
 
         val param = indicatorView.layoutParams
         param.width = MATCH_PARENT
-        param.height = 2
+        param.height = MATCH_PARENT
 
         indicator.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 1f).apply {
-            marginEnd = 2
-            marginStart = 2
+            marginEnd = indicatorItemMargin.toInt()
+            marginStart = indicatorItemMargin.toInt()
+            height = indicatorItemHeight.toInt()
         }
 
         return indicator
+    }
+
+    private fun dpToPx(dp: Float): Int {
+        return (dp * resources.displayMetrics.density).toInt()
     }
 
     fun setViewPager2(viewPager: ViewPager2?) {
