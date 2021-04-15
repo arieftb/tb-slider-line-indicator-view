@@ -26,13 +26,13 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
 
     var indicatorItemMargin: Float = 0f
         set(value) {
-            field = dpToPx(value).toFloat()
+            field = value
             refreshIndicatorMargin()
         }
 
     var indicatorItemHeight: Float = 1f
         set(value) {
-            field = dpToPx(value).toFloat()
+            field = value
             refreshIndicatorHeight()
         }
 
@@ -47,18 +47,16 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         }
 
         context.obtainStyledAttributes(attrs, R.styleable.TBSliderLineIndicatorView, 0, 0).also {
-            indicatorItemMargin = dpToPx(
+            indicatorItemMargin =
                 it.getDimension(
                     R.styleable.TBSliderLineIndicatorView_indicator_itemMargin,
                     0f
                 )
-            ).toFloat()
-            indicatorItemHeight = dpToPx(
+            indicatorItemHeight =
                 it.getDimension(
                     R.styleable.TBSliderLineIndicatorView_indicator_itemHeight,
                     1f
                 )
-            ).toFloat()
         }.apply {
             recycle()
         }
@@ -137,10 +135,6 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         }
 
         return indicator
-    }
-
-    private fun dpToPx(dp: Float): Int {
-        return (dp * resources.displayMetrics.density).toInt()
     }
 
     fun setViewPager2(viewPager: ViewPager2?) {
