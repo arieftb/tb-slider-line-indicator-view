@@ -14,12 +14,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(applicationContext))
         setContentView(binding.root)
 
-        adapter = SliderAdapter().apply {
-            listItem = getData()
-        }
+        adapter = SliderAdapter()
 
         binding.slider.adapter = adapter
         binding.indicator.setViewPager2(binding.slider)
+
+//        binding.indicator.removeIndicators(getData().size)
+
+        adapter.listItem = getData()
     }
 
     private fun getData(): List<String> {
