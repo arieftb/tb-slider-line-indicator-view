@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 //        binding.indicator.removeIndicators(getData().size)
 
         adapter.listItem = getData()
+        adapter.listItem = getData()
     }
 
     private fun getData(): List<String> {
