@@ -174,6 +174,9 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         viewPager.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 super.onChanged()
+                if (!indicatorList.isNullOrEmpty()) {
+                    removeIndicators(indicatorList.size)
+                }
                 addIndicators(viewPager.adapter?.itemCount!!)
             }
         })
