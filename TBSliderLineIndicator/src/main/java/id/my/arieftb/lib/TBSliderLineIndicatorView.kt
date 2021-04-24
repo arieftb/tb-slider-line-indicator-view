@@ -152,7 +152,9 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                setSelectedIndicator(position)
+                if (!indicatorList.isNullOrEmpty()) {
+                    setSelectedIndicator(position)
+                }
             }
         })
 
