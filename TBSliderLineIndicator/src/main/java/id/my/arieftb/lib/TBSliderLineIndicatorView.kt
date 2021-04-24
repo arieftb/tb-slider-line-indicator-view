@@ -24,6 +24,9 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
     private val indicatorList = ArrayList<ImageView>()
     private var count: Int = 0
 
+    private var selectedDrawable: Int? = R.drawable.background_line_indicator_selected
+    private var unselectedDrawable: Int? = R.drawable.background_line_indicator_unselected
+
     var indicatorItemMargin: Float = 0f
         set(value) {
             field = value
@@ -57,6 +60,14 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
                     R.styleable.TBSliderLineIndicatorView_indicator_itemHeight,
                     1f
                 )
+            selectedDrawable = it.getResourceId(
+                R.styleable.TBSliderLineIndicatorView_indicator_selectedDrawable,
+                R.drawable.background_line_indicator_selected
+            )
+            unselectedDrawable = it.getResourceId(
+                R.styleable.TBSliderLineIndicatorView_indicator_unselectedDrawable,
+                R.drawable.background_line_indicator_unselected
+            )
         }.apply {
             recycle()
         }
@@ -95,12 +106,12 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
 
     private fun setSelectedIndicator(index: Int) {
         linearLayoutParent.getChildAt(index).findViewById<ImageView>(R.id.imageLineIndicator)
-            .setBackgroundResource(R.drawable.background_line_indicator_selected)
+            .setBackgroundResource(selectedDrawable!!)
 
         linearLayoutParent.forEachIndexed { position, view ->
             if (position > index) {
                 view.findViewById<ImageView>(R.id.imageLineIndicator)
-                    .setBackgroundResource(R.drawable.background_line_indicator_unselected)
+                    .setBackgroundResource(unselectedDrawable!!)
             }
         }
     }
