@@ -21,6 +21,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/slider"
+        app:indicator_selectedDrawable="@drawable/background_line_indicator_selected_v2"
+        app:indicator_unselectedDrawable="@drawable/background_line_indicator_unselected"
         app:indicator_itemMargin="@dimen/_2sdp"
         app:indicator_itemHeight="@dimen/_2sdp"/>
 
