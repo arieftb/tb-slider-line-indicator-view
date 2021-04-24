@@ -79,6 +79,20 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
         linearLayoutParent.addView(indicator)
     }
 
+    private fun removeIndicators(count: Int) {
+        if (count > 0) {
+            this.count = count
+            for (i in 0 until count) {
+                removeIndicator()
+            }
+        }
+    }
+
+    private fun removeIndicator() {
+        linearLayoutParent.removeViewAt(linearLayoutParent.childCount - 1)
+        indicatorList.removeAt(indicatorList.size - 1)
+    }
+
     private fun setSelectedIndicator(index: Int) {
         linearLayoutParent.getChildAt(index).findViewById<ImageView>(R.id.imageLineIndicator)
             .setBackgroundResource(R.drawable.background_line_indicator_selected)
@@ -142,6 +156,10 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
             throw IllegalStateException("You have to set adapter to your ViewPager2 first")
         }
 
+        if (!indicatorList.isNullOrEmpty()) {
+            removeIndicators(indicatorList.size)
+        }
+
         viewPager.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 super.onChanged()
@@ -157,6 +175,10 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
                 }
             }
         })
+
+        if (!indicatorList.isNullOrEmpty()) {
+            removeIndicators(indicatorList.size)
+        }
 
         addIndicators(viewPager.adapter?.itemCount!!)
     }
