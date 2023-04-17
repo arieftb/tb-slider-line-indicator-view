@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="TBSliderLineIndicatorView">
-        <attr name="indicator_itemMargin" format="dimension"/>
-        <attr name="indicator_itemHeight" format="dimension"/>
-        <attr name="indicator_selectedDrawable" format="reference"/>
-        <attr name="indicator_unselectedDrawable" format="reference"/>
+        <attr name="indicator_itemMargin" format="dimension" />
+        <attr name="indicator_itemHeight" format="dimension" />
+        <attr name="indicator_selectedDrawable" format="reference" />
+        <attr name="indicator_unselectedDrawable" format="reference" />
+        <attr name="indicator_selectedType" format="enum">
+            <enum name="range" value="0" />
+            <enum name="each" value="1" />
+        </attr>
     </declare-styleable>
 </resources>

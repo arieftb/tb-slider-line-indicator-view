@@ -27,6 +27,8 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
     private var selectedDrawable: Int? = R.drawable.background_line_indicator_selected
     private var unselectedDrawable: Int? = R.drawable.background_line_indicator_unselected
 
+    private var _selectedType: IndicatorSelectedType = IndicatorSelectedType.RANGE
+
     var indicatorItemMargin: Float = 0f
         set(value) {
             field = value
@@ -68,6 +70,13 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
                 R.styleable.TBSliderLineIndicatorView_indicator_unselectedDrawable,
                 R.drawable.background_line_indicator_unselected
             )
+            _selectedType =
+                IndicatorSelectedType.fetch(
+                    it.getInt(
+                        R.styleable.TBSliderLineIndicatorView_indicator_selectedType,
+                        0
+                    )
+                )
         }.apply {
             recycle()
         }
@@ -109,9 +118,19 @@ class TBSliderLineIndicatorView @JvmOverloads constructor(
             .setBackgroundResource(selectedDrawable!!)
 
         linearLayoutParent.forEachIndexed { position, view ->
-            if (position > index) {
-                view.findViewById<ImageView>(R.id.imageLineIndicator)
-                    .setBackgroundResource(unselectedDrawable!!)
+            when (_selectedType) {
+                IndicatorSelectedType.RANGE -> {
+                    if (position > index) {
+                        view.findViewById<ImageView>(R.id.imageLineIndicator)
+                            .setBackgroundResource(unselectedDrawable!!)
+                    }
+                }
+                IndicatorSelectedType.EACH -> {
+                    if (position != index) {
+                        view.findViewById<ImageView>(R.id.imageLineIndicator)
+                            .setBackgroundResource(unselectedDrawable!!)
+                    }
+                }
             }
         }
     }
